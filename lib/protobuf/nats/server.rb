@@ -52,7 +52,7 @@ module Protobuf
             # Instrument the thread pool time-to-execute duration.
             processed_at = ::Time.now
             ::ActiveSupport::Notifications.instrument("server.thread_pool_execution_delay.protobuf-nats",
-                                                      (processed_at - enqueued_at))
+                                                      (processed_at - enqueued_at) * 1000)
 
             # Process request.
             response_data = handle_request(request_data, 'server' => @server)
@@ -64,7 +64,7 @@ module Protobuf
             # Instrument the request duration.
             completed_at = ::Time.now
             ::ActiveSupport::Notifications.instrument("server.request_duration.protobuf-nats",
-                                                      (completed_at - enqueued_at))
+                                                      (completed_at - enqueued_at) * 1000)
           end
         end
 
